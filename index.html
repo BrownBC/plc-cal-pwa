@@ -39,13 +39,13 @@ body{
   display:flex;flex-direction:column;
 }
 .tab-page{display:none}
-.tab-page.active{display:flex;flex-direction:column;margin-top:auto}
+.tab-page.active{display:flex;flex-direction:column}
 
 /* ===== Pill rows (no card wrapper) ===== */
 .pill-row{display:flex;gap:4px;margin-bottom:3px;padding:0 2px}
 .pill-row label{
   flex:1;min-width:0;text-align:center;
-  padding:6px 2px;font-size:11px;font-weight:600;
+  padding:7px 2px;font-size:14px;font-weight:600;
   border-radius:6px;background:var(--input-bg);
   border:1.5px solid var(--border);color:var(--text-dim);
   cursor:pointer;transition:all .15s;white-space:nowrap;
@@ -61,7 +61,7 @@ body{
   border-radius:8px;padding:7px 8px;margin-bottom:3px;
 }
 .section-title{
-  font-size:12px;color:var(--accent);font-weight:700;
+  font-size:14px;color:var(--accent);font-weight:700;
   text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;
 }
 
@@ -69,7 +69,7 @@ body{
 .calc-input{
   width:100%;background:var(--input-bg);
   border:1.5px solid var(--border);border-radius:7px;
-  padding:8px 10px;font-size:18px;
+  padding:8px 10px;font-size:22px;
   font-family:'SF Mono',Menlo,Consolas,monospace;
   color:var(--text);outline:none;transition:border-color .2s;
 }
@@ -81,7 +81,7 @@ body{
   margin-top:4px;background:var(--bg);border-radius:5px;
   padding:4px 6px;max-height:52px;overflow-y:auto;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  font-size:14px;color:var(--text-dim);line-height:1.4;
+  font-size:15px;color:var(--text-dim);line-height:1.4;
 }
 .history-box:empty::before{content:'計算履歴';color:var(--text-dim);opacity:.3}
 
@@ -93,12 +93,12 @@ body{
 }
 .result-row:last-child{border-bottom:none}
 .result-label{
-  width:76px;flex-shrink:0;font-size:13px;
+  width:80px;flex-shrink:0;font-size:15px;
   font-weight:700;color:var(--accent2);
 }
 .result-value{
   flex:1;font-family:'SF Mono',Menlo,Consolas,monospace;
-  font-size:16px;color:var(--text);word-break:break-all;
+  font-size:18px;color:var(--text);word-break:break-all;
   min-height:1em;user-select:all;-webkit-user-select:all;
 }
 
@@ -133,8 +133,8 @@ body{
   background:var(--bg);border-top:1px solid var(--border);
 }
 .key{
-  height:48px;border:none;border-radius:7px;
-  font-size:20px;font-weight:600;
+  height:54px;border:none;border-radius:7px;
+  font-size:24px;font-weight:600;
   font-family:'SF Mono',Menlo,Consolas,monospace;
   cursor:pointer;transition:background .1s;
   -webkit-tap-highlight-color:transparent;
@@ -162,7 +162,7 @@ body{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   height:44px;background:none;border:none;
-  color:var(--text-dim);font-size:10px;cursor:pointer;
+  color:var(--text-dim);font-size:12px;cursor:pointer;
   transition:color .2s;-webkit-tap-highlight-color:transparent;
 }
 .tab-btn.active{color:var(--text)}
