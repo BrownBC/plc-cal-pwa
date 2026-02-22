@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plc-calc-v2';
+const CACHE_NAME = 'plc-calc-v3';
 const ASSETS = [
   './',
   './index.html',

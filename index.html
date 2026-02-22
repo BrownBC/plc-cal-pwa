@@ -13,165 +13,127 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#000;
-  --surface:#111;
-  --card:#1a1a1a;
-  --input-bg:#0a0a0a;
-  --text:#f0f0f0;
-  --text-dim:#888;
-  --accent:#ccc;
-  --accent2:#aaa;
-  --border:#2a2a2a;
-  --tab-h:52px;
+  --bg:#000;--surface:#111;--card:#1a1a1a;--input-bg:#0a0a0a;
+  --text:#f0f0f0;--text-dim:#888;--accent:#ccc;--accent2:#aaa;--border:#2a2a2a;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --safe-left:env(safe-area-inset-left,0px);
   --safe-right:env(safe-area-inset-right,0px);
 }
 html,body{
-  height:100%;
-  background:var(--bg);
-  color:var(--text);
+  height:100%;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue','Hiragino Sans',sans-serif;
-  -webkit-tap-highlight-color:transparent;
-  overscroll-behavior:none;
+  -webkit-tap-highlight-color:transparent;overscroll-behavior:none;
 }
 body{
-  display:flex;
-  flex-direction:column;
+  display:flex;flex-direction:column;
   padding-top:var(--safe-top);
   padding-left:var(--safe-left);
   padding-right:var(--safe-right);
 }
 
-/* ===== Header ===== */
-.header{
-  text-align:center;
-  padding:8px 16px 4px;
-  font-size:14px;
-  font-weight:700;
-  color:var(--accent);
-  letter-spacing:.5px;
-  flex-shrink:0;
-}
-
-/* ===== Tab Content ===== */
+/* ===== Content ===== */
 .tab-content{
-  flex:1;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:0 10px 8px;
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:6px 8px 4px;
 }
 .tab-page{display:none}
 .tab-page.active{display:block}
 
-/* ===== Section ===== */
-.section{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:10px;
-  margin-bottom:8px;
-}
-.section-title{
-  font-size:10px;
-  color:var(--accent);
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  margin-bottom:6px;
-}
-
-/* ===== Radio Pills ===== */
-.radio-group{display:flex;gap:4px}
-.radio-group label{
+/* ===== Pill rows (no card wrapper) ===== */
+.pill-row{display:flex;gap:4px;margin-bottom:5px;padding:0 2px}
+.pill-row label{
   flex:1;min-width:0;text-align:center;
-  padding:7px 2px;font-size:11px;font-weight:600;
+  padding:6px 2px;font-size:11px;font-weight:600;
   border-radius:6px;background:var(--input-bg);
   border:1.5px solid var(--border);color:var(--text-dim);
   cursor:pointer;transition:all .15s;white-space:nowrap;
 }
-.radio-group input{display:none}
-.radio-group label.selected{
+.pill-row input{display:none}
+.pill-row label.selected{
   background:var(--card);border-color:var(--accent);color:var(--text);
 }
 
-/* ===== Input Display ===== */
+/* ===== Section card ===== */
+.section{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:7px 8px;margin-bottom:5px;
+}
+.section-title{
+  font-size:9px;color:var(--accent);font-weight:700;
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;
+}
+
+/* ===== Input ===== */
 .calc-input{
   width:100%;background:var(--input-bg);
-  border:1.5px solid var(--border);border-radius:8px;
-  padding:10px 12px;font-size:20px;
+  border:1.5px solid var(--border);border-radius:7px;
+  padding:8px 10px;font-size:18px;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  color:var(--text);caret-color:var(--accent);
-  outline:none;transition:border-color .2s;
+  color:var(--text);outline:none;transition:border-color .2s;
 }
 .calc-input:focus,.calc-input.input-active{border-color:var(--accent)}
 .calc-input::placeholder{color:var(--text-dim);opacity:.4}
 
 /* ===== History ===== */
 .history-box{
-  margin-top:6px;background:var(--bg);border-radius:6px;
-  padding:6px 8px;max-height:56px;overflow-y:auto;
+  margin-top:4px;background:var(--bg);border-radius:5px;
+  padding:4px 6px;max-height:36px;overflow-y:auto;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  font-size:11px;color:var(--text-dim);line-height:1.5;
+  font-size:10px;color:var(--text-dim);line-height:1.4;
 }
 .history-box:empty::before{content:'計算履歴';color:var(--text-dim);opacity:.3}
 
 /* ===== Result Table ===== */
 .result-table{width:100%}
 .result-row{
-  display:flex;align-items:baseline;padding:3px 0;
+  display:flex;align-items:baseline;padding:2px 0;
   border-bottom:1px solid rgba(255,255,255,.04);
 }
 .result-row:last-child{border-bottom:none}
 .result-label{
-  width:78px;flex-shrink:0;font-size:10px;
+  width:68px;flex-shrink:0;font-size:10px;
   font-weight:700;color:var(--accent2);
 }
 .result-value{
   flex:1;font-family:'SF Mono',Menlo,Consolas,monospace;
-  font-size:13px;color:var(--text);word-break:break-all;
-  min-height:1.1em;user-select:all;-webkit-user-select:all;
+  font-size:12px;color:var(--text);word-break:break-all;
+  min-height:1em;user-select:all;-webkit-user-select:all;
 }
 
 /* ===== 2-Word Tab ===== */
-.split-inputs{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.split-inputs{display:flex;gap:5px;align-items:center;margin-bottom:6px}
 .split-inputs .field{flex:1}
 .split-inputs .field>label{
   display:block;font-size:10px;color:var(--text-dim);
-  margin-bottom:3px;font-weight:600;
+  margin-bottom:2px;font-weight:600;
 }
 .split-input{
   width:100%;background:var(--input-bg);
-  border:1.5px solid var(--border);border-radius:8px;
-  padding:9px 10px;font-size:17px;
+  border:1.5px solid var(--border);border-radius:7px;
+  padding:7px 8px;font-size:16px;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  color:var(--text);caret-color:var(--accent);
-  outline:none;transition:border-color .2s;
+  color:var(--text);outline:none;transition:border-color .2s;
 }
 .split-input:focus,.split-input.input-active{border-color:var(--accent)}
-.split-inputs .plus{font-size:18px;color:var(--text-dim);padding-top:14px}
-
+.split-inputs .plus{font-size:16px;color:var(--text-dim);padding-top:12px}
 .combine-btn{
-  width:100%;padding:10px;border:none;border-radius:8px;
-  background:#333;color:#fff;font-size:14px;font-weight:700;
-  cursor:pointer;transition:opacity .15s;margin-bottom:8px;
+  width:100%;padding:8px;border:none;border-radius:7px;
+  background:#333;color:#fff;font-size:13px;font-weight:700;
+  cursor:pointer;transition:opacity .15s;
 }
 .combine-btn:active{opacity:.7}
 
 /* ===== KEYPAD ===== */
 .keypad{
-  flex-shrink:0;
-  display:grid;
+  flex-shrink:0;display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:5px;
-  padding:6px 10px 8px;
-  background:var(--bg);
-  border-top:1px solid var(--border);
+  gap:4px;padding:5px 8px 6px;
+  background:var(--bg);border-top:1px solid var(--border);
 }
 .key{
-  height:44px;border:none;border-radius:8px;
-  font-size:16px;font-weight:600;
+  height:40px;border:none;border-radius:7px;
+  font-size:15px;font-weight:600;
   font-family:'SF Mono',Menlo,Consolas,monospace;
   cursor:pointer;transition:background .1s;
   -webkit-tap-highlight-color:transparent;
@@ -198,14 +160,13 @@ body{
 .tab-btn{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  height:var(--tab-h);background:none;border:none;
+  height:44px;background:none;border:none;
   color:var(--text-dim);font-size:10px;cursor:pointer;
   transition:color .2s;-webkit-tap-highlight-color:transparent;
 }
 .tab-btn.active{color:var(--text)}
-.tab-btn svg{width:22px;height:22px;margin-bottom:2px;fill:currentColor}
+.tab-btn svg{width:20px;height:20px;margin-bottom:1px;fill:currentColor}
 
-/* ===== Scrollbar ===== */
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -213,27 +174,21 @@ body{
 </head>
 <body>
 
-<div class="header">PLC Programmer's Calc</div>
-
 <div class="tab-content">
 
   <!-- ===== TAB 1 ===== -->
   <div id="page-calc" class="tab-page active">
-    <div class="section">
-      <div class="radio-group" id="rg-bitmode">
-        <label class="selected" data-val="16"><input type="radio" name="bitmode" value="16" checked><span>WORD</span></label>
-        <label data-val="32"><input type="radio" name="bitmode" value="32"><span>DWORD</span></label>
-        <label data-val="64"><input type="radio" name="bitmode" value="64"><span>QWORD</span></label>
-        <label data-val="0"><input type="radio" name="bitmode" value="0"><span>制限無し</span></label>
-      </div>
+    <div class="pill-row" id="rg-bitmode">
+      <label class="selected" data-val="16"><input type="radio" name="bitmode" value="16" checked><span>WORD</span></label>
+      <label data-val="32"><input type="radio" name="bitmode" value="32"><span>DWORD</span></label>
+      <label data-val="64"><input type="radio" name="bitmode" value="64"><span>QWORD</span></label>
+      <label data-val="0"><input type="radio" name="bitmode" value="0"><span>制限無し</span></label>
     </div>
-    <div class="section">
-      <div class="radio-group" id="rg-base">
-        <label data-val="16"><input type="radio" name="base" value="16"><span>HEX</span></label>
-        <label class="selected" data-val="10"><input type="radio" name="base" value="10" checked><span>DEC</span></label>
-        <label data-val="8"><input type="radio" name="base" value="8"><span>OCT</span></label>
-        <label data-val="2"><input type="radio" name="base" value="2"><span>BIN</span></label>
-      </div>
+    <div class="pill-row" id="rg-base">
+      <label data-val="16"><input type="radio" name="base" value="16"><span>HEX</span></label>
+      <label class="selected" data-val="10"><input type="radio" name="base" value="10" checked><span>DEC</span></label>
+      <label data-val="8"><input type="radio" name="base" value="8"><span>OCT</span></label>
+      <label data-val="2"><input type="radio" name="base" value="2"><span>BIN</span></label>
     </div>
     <div class="section">
       <input type="text" id="calcInput" class="calc-input input-active" placeholder="0" inputmode="none" readonly autocomplete="off">
@@ -254,13 +209,11 @@ body{
 
   <!-- ===== TAB 2 ===== -->
   <div id="page-split" class="tab-page">
-    <div class="section">
-      <div class="radio-group" id="rg-splitbase">
-        <label data-val="16"><input type="radio" name="splitbase" value="16"><span>HEX</span></label>
-        <label class="selected" data-val="10"><input type="radio" name="splitbase" value="10" checked><span>DEC</span></label>
-        <label data-val="8"><input type="radio" name="splitbase" value="8"><span>OCT</span></label>
-        <label data-val="2"><input type="radio" name="splitbase" value="2"><span>BIN</span></label>
-      </div>
+    <div class="pill-row" id="rg-splitbase">
+      <label data-val="16"><input type="radio" name="splitbase" value="16"><span>HEX</span></label>
+      <label class="selected" data-val="10"><input type="radio" name="splitbase" value="10" checked><span>DEC</span></label>
+      <label data-val="8"><input type="radio" name="splitbase" value="8"><span>OCT</span></label>
+      <label data-val="2"><input type="radio" name="splitbase" value="2"><span>BIN</span></label>
     </div>
     <div class="section">
       <div class="section-title">2ワード合成</div>
@@ -291,7 +244,7 @@ body{
   </div>
 </div>
 
-<!-- ===== SHARED KEYPAD ===== -->
+<!-- ===== KEYPAD ===== -->
 <div class="keypad" id="keypad">
   <button class="key key-digit" data-key="A" data-min="16">A</button>
   <button class="key key-digit" data-key="B" data-min="16">B</button>
@@ -343,352 +296,187 @@ const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 function bigAbs(v){ return v < 0n ? -v : v; }
 
-// ── State ──
-let bitMode   = 16;
-let inputBase = 10;
-let splitBase = 10;
-let currentValue = 0n;
-let currentTab = 'page-calc';
-let activeInput = null;
-let activeSplitInput = null;
+let bitMode=16, inputBase=10, splitBase=10, currentValue=0n;
+let currentTab='page-calc', activeInput=null, activeSplitInput=null;
 
-// ── DOM ──
-const calcInput  = $('#calcInput');
-const historyEl  = $('#history');
-const highWordEl = $('#highWord');
-const lowWordEl  = $('#lowWord');
+const calcInput=$('#calcInput'), historyEl=$('#history');
+const highWordEl=$('#highWord'), lowWordEl=$('#lowWord');
+activeInput=calcInput; activeSplitInput=highWordEl;
 
-activeInput = calcInput;
-activeSplitInput = highWordEl;
-
-// ── Active input management ──
 function setActiveInput(el){
-  $$('.input-active').forEach(e => e.classList.remove('input-active'));
-  activeInput = el;
-  el.classList.add('input-active');
+  $$('.input-active').forEach(e=>e.classList.remove('input-active'));
+  activeInput=el; el.classList.add('input-active');
 }
-
-[highWordEl, lowWordEl].forEach(el => {
-  el.addEventListener('click', () => {
-    activeSplitInput = el;
-    if(currentTab === 'page-split') setActiveInput(el);
+[highWordEl,lowWordEl].forEach(el=>{
+  el.addEventListener('click',()=>{
+    activeSplitInput=el;
+    if(currentTab==='page-split') setActiveInput(el);
   });
 });
 
-// ── Tab switching ──
-$$('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    $$('.tab-btn').forEach(b => b.classList.remove('active'));
+// Tabs
+$$('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    $$('.tab-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    $$('.tab-page').forEach(p => p.classList.remove('active'));
-    const tabId = btn.dataset.tab;
-    $('#' + tabId).classList.add('active');
-    currentTab = tabId;
-    if(currentTab === 'page-calc'){
-      setActiveInput(calcInput);
-    } else {
-      setActiveInput(activeSplitInput);
-    }
+    $$('.tab-page').forEach(p=>p.classList.remove('active'));
+    const t=btn.dataset.tab; $('#'+t).classList.add('active');
+    currentTab=t;
+    setActiveInput(t==='page-calc'?calcInput:activeSplitInput);
     updateKeypad();
   });
 });
 
-// ── Radio groups ──
-function setupRadioGroup(groupId, onChange){
-  const group = $('#' + groupId);
-  group.querySelectorAll('label').forEach(label => {
-    label.addEventListener('click', () => {
-      group.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
-      label.classList.add('selected');
-      label.querySelector('input').checked = true;
-      onChange(parseInt(label.dataset.val, 10));
+// Radio pills
+function setupPills(id,onChange){
+  const g=$('#'+id);
+  g.querySelectorAll('label').forEach(l=>{
+    l.addEventListener('click',()=>{
+      g.querySelectorAll('label').forEach(x=>x.classList.remove('selected'));
+      l.classList.add('selected');
+      l.querySelector('input').checked=true;
+      onChange(parseInt(l.dataset.val,10));
     });
   });
 }
+setupPills('rg-bitmode',v=>{bitMode=v;updateResults('r1',currentValue,bitMode);updateInputDisplay()});
+setupPills('rg-base',v=>{inputBase=v;updateInputDisplay();updateKeypad()});
+setupPills('rg-splitbase',v=>{splitBase=v;updateKeypad()});
 
-setupRadioGroup('rg-bitmode', v => {
-  bitMode = v;
-  updateResults('r1', currentValue, bitMode);
-  updateInputDisplay();
-});
-
-setupRadioGroup('rg-base', v => {
-  inputBase = v;
-  updateInputDisplay();
-  updateKeypad();
-});
-
-setupRadioGroup('rg-splitbase', v => {
-  splitBase = v;
-  updateKeypad();
-});
-
-// ── Keypad state ──
-function getActiveBase(){
-  return currentTab === 'page-calc' ? inputBase : splitBase;
-}
-
+// Keypad state
+function getActiveBase(){return currentTab==='page-calc'?inputBase:splitBase}
 function updateKeypad(){
-  const base = getActiveBase();
-  $$('.key[data-min]').forEach(key => {
-    key.disabled = base < parseInt(key.dataset.min, 10);
-  });
+  const b=getActiveBase();
+  $$('.key[data-min]').forEach(k=>{k.disabled=b<parseInt(k.dataset.min,10)});
 }
 updateKeypad();
 
-// ── Keypad handler ──
-$('#keypad').addEventListener('click', e => {
-  const btn = e.target.closest('.key');
-  if(!btn || btn.disabled) return;
-  const k = btn.dataset.key;
-
-  if(navigator.vibrate) navigator.vibrate(10);
-
-  if(k === 'AC'){
-    activeInput.value = '';
-    if(currentTab === 'page-calc'){
-      currentValue = 0n;
-      clearResults('r1');
-    } else {
-      combineTwoWords();
-    }
+// Keypad
+$('#keypad').addEventListener('click',e=>{
+  const btn=e.target.closest('.key');
+  if(!btn||btn.disabled)return;
+  const k=btn.dataset.key;
+  if(navigator.vibrate)navigator.vibrate(10);
+  if(k==='AC'){
+    activeInput.value='';
+    if(currentTab==='page-calc'){currentValue=0n;clearResults('r1')}
+    else combineTwoWords();
     return;
   }
-
-  if(k === 'BS'){
-    activeInput.value = activeInput.value.slice(0, -1);
-    triggerUpdate();
+  if(k==='BS'){activeInput.value=activeInput.value.slice(0,-1);triggerUpdate();return}
+  if(k==='='){
+    if(currentTab==='page-calc')calculateExpression();
+    else combineTwoWords();
     return;
   }
-
-  if(k === '='){
-    if(currentTab === 'page-calc'){
-      calculateExpression();
-    } else {
-      combineTwoWords();
-    }
-    return;
-  }
-
-  // Digit / operator / hex letter
-  activeInput.value += k;
+  activeInput.value+=k;
   triggerUpdate();
 });
 
 function triggerUpdate(){
-  if(currentTab === 'page-calc'){
-    const raw = calcInput.value.trim();
-    if(!raw){
-      currentValue = 0n;
-      clearResults('r1');
-      return;
-    }
-    try{
-      const val = parseValue(raw, inputBase);
-      if(val !== null){
-        currentValue = val;
-        updateResults('r1', val, bitMode);
-      }
-    }catch(e){}
-  } else {
-    combineTwoWords();
-  }
+  if(currentTab==='page-calc'){
+    const r=calcInput.value.trim();
+    if(!r){currentValue=0n;clearResults('r1');return}
+    try{const v=parseValue(r,inputBase);if(v!==null){currentValue=v;updateResults('r1',v,bitMode)}}catch(e){}
+  }else combineTwoWords();
 }
 
-// ── Input display update (base change) ──
 function updateInputDisplay(){
-  if(currentValue === null) return;
-  let val = currentValue;
-  if(bitMode > 0) val = val & ((1n << BigInt(bitMode)) - 1n);
-  calcInput.value = formatForBase(val, inputBase, bitMode);
+  if(currentValue===null)return;
+  let v=currentValue;
+  if(bitMode>0)v=v&((1n<<BigInt(bitMode))-1n);
+  calcInput.value=formatForBase(v,inputBase,bitMode);
+}
+function formatForBase(v,b,m){
+  if(v<0n&&m===0){
+    switch(b){case 16:return'-'+(-v).toString(16).toUpperCase();case 8:return'-'+(-v).toString(8);case 2:return'-'+(-v).toString(2);default:return v.toString(10)}
+  }
+  switch(b){case 16:return v.toString(16).toUpperCase();case 8:return v.toString(8);case 2:return v.toString(2);default:return v.toString(10)}
+}
+function parseValue(s,b){
+  s=s.trim();if(!s)return null;
+  if(/^0x/i.test(s))return BigInt('0x'+s.slice(2));
+  if(/^0o/i.test(s))return BigInt('0o'+s.slice(2));
+  if(/^0b/i.test(s))return BigInt('0b'+s.slice(2));
+  let n=false;if(s.startsWith('-')){n=true;s=s.slice(1)}
+  let v;
+  switch(b){case 16:v=BigInt('0x'+s);break;case 8:v=BigInt('0o'+s);break;case 2:v=BigInt('0b'+s);break;default:v=BigInt(s)}
+  return n?-v:v;
 }
 
-function formatForBase(val, base, mode){
-  if(val < 0n && mode === 0){
-    switch(base){
-      case 16: return '-' + (-val).toString(16).toUpperCase();
-      case 8:  return '-' + (-val).toString(8);
-      case 2:  return '-' + (-val).toString(2);
-      default: return val.toString(10);
-    }
-  }
-  switch(base){
-    case 16: return val.toString(16).toUpperCase();
-    case 8:  return val.toString(8);
-    case 2:  return val.toString(2);
-    default: return val.toString(10);
-  }
-}
-
-// ── Parse ──
-function parseValue(str, base){
-  str = str.trim();
-  if(!str) return null;
-  if(/^0x/i.test(str)) return BigInt('0x' + str.slice(2));
-  if(/^0o/i.test(str)) return BigInt('0o' + str.slice(2));
-  if(/^0b/i.test(str)) return BigInt('0b' + str.slice(2));
-  let neg = false;
-  if(str.startsWith('-')){ neg = true; str = str.slice(1); }
-  let val;
-  switch(base){
-    case 16: val = BigInt('0x' + str); break;
-    case 8:  val = BigInt('0o' + str); break;
-    case 2:  val = BigInt('0b' + str); break;
-    default: val = BigInt(str); break;
-  }
-  return neg ? -val : val;
-}
-
-// ── Calculate expression ──
 function calculateExpression(){
-  const raw = calcInput.value.trim();
-  if(!raw) return;
-  if(!/[+\-*/%&|^~<>]/.test(raw) && !/<<|>>/.test(raw)) return;
-
-  const base = inputBase;
+  const raw=calcInput.value.trim();
+  if(!raw)return;
+  if(!/[+\-*/%&|^~<>]/.test(raw)&&!/<<|>>/.test(raw))return;
+  const base=inputBase;
   try{
-    const expr = raw.replace(/\b([0-9a-fA-F]+)\b/g, (match) => {
-      if(/^0[xXoObB]/.test(match)) return match + 'n';
-      try{
-        const prefix = {16:'0x',8:'0o',2:'0b'}[base] || '';
-        BigInt(prefix + match);
-        return prefix + match + 'n';
-      }catch(e){ return match; }
+    const expr=raw.replace(/\b([0-9a-fA-F]+)\b/g,(m)=>{
+      if(/^0[xXoObB]/.test(m))return m+'n';
+      try{const p={16:'0x',8:'0o',2:'0b'}[base]||'';BigInt(p+m);return p+m+'n'}catch(e){return m}
     });
-    const expr2 = expr.replace(/\b(0[xX][0-9a-fA-F]+|0[oO][0-7]+|0[bB][01]+)(?!n)\b/g, '$1n');
-    if(/[;(){}\[\]"'`\\$@!?]/.test(expr2)) throw new Error('Invalid');
-
-    const result = Function('"use strict"; return (' + expr2 + ')')();
-
-    if(typeof result === 'bigint'){
-      currentValue = result;
-      const resultStr = formatForBase(applyMask(result, bitMode), base, bitMode);
-      addHistory(raw + ' = ' + resultStr);
-      calcInput.value = resultStr;
-      updateResults('r1', result, bitMode);
+    const e2=expr.replace(/\b(0[xX][0-9a-fA-F]+|0[oO][0-7]+|0[bB][01]+)(?!n)\b/g,'$1n');
+    if(/[;(){}\[\]"'`\\$@!?]/.test(e2))throw new Error('Invalid');
+    const r=Function('"use strict"; return ('+e2+')')();
+    if(typeof r==='bigint'){
+      currentValue=r;
+      const rs=formatForBase(applyMask(r,bitMode),base,bitMode);
+      addHistory(raw+' = '+rs);
+      calcInput.value=rs;
+      updateResults('r1',r,bitMode);
     }
-  }catch(e){
-    addHistory('Error: ' + raw);
-  }
+  }catch(e){addHistory('Error: '+raw)}
+}
+function applyMask(v,m){return m>0?v&((1n<<BigInt(m))-1n):v}
+function addHistory(t){
+  const d=document.createElement('div');d.textContent=t;
+  historyEl.appendChild(d);historyEl.scrollTop=historyEl.scrollHeight;
 }
 
-function applyMask(val, mode){
-  if(mode > 0) return val & ((1n << BigInt(mode)) - 1n);
-  return val;
-}
-
-function addHistory(text){
-  const line = document.createElement('div');
-  line.textContent = text;
-  historyEl.appendChild(line);
-  historyEl.scrollTop = historyEl.scrollHeight;
-}
-
-// ── Results ──
-function updateResults(prefix, val, mode){
-  let unsignedVal, signedVal, bits;
-  if(mode > 0){
-    const mask = (1n << BigInt(mode)) - 1n;
-    bits = mode;
-    unsignedVal = val & mask;
-    if(unsignedVal & (1n << BigInt(bits - 1))){
-      signedVal = unsignedVal - (1n << BigInt(bits));
-    } else {
-      signedVal = unsignedVal;
-    }
-  } else {
-    unsignedVal = val;
-    signedVal = val;
-    bits = 0;
-  }
-
-  $('#' + prefix + '-udec').textContent = unsignedVal.toString(10);
-  $('#' + prefix + '-sdec').textContent = signedVal.toString(10);
-
+function updateResults(pfx,val,mode){
+  let u,s,bits;
+  if(mode>0){
+    const mask=(1n<<BigInt(mode))-1n;bits=mode;u=val&mask;
+    s=(u&(1n<<BigInt(bits-1)))?u-(1n<<BigInt(bits)):u;
+  }else{u=val;s=val;bits=0}
+  $('#'+pfx+'-udec').textContent=u.toString(10);
+  $('#'+pfx+'-sdec').textContent=s.toString(10);
   // HEX
-  if(bits > 0){
-    let h = unsignedVal.toString(16).toUpperCase();
-    $('#' + prefix + '-hex').textContent = h.padStart(bits / 4, '0');
-  } else {
-    $('#' + prefix + '-hex').textContent = val < 0n
-      ? '-' + (-val).toString(16).toUpperCase()
-      : val.toString(16).toUpperCase();
-  }
-
-  // BINARY (4-bit grouped)
-  let binStr = bits > 0
-    ? unsignedVal.toString(2).padStart(bits, '0')
-    : (val < 0n ? '-' + (-val).toString(2) : val.toString(2));
-  const isNeg = binStr.startsWith('-');
-  const rawBits = isNeg ? binStr.slice(1) : binStr;
-  const chunks = [];
-  for(let i = rawBits.length; i > 0; i -= 4){
-    chunks.unshift(rawBits.slice(Math.max(0, i - 4), i));
-  }
-  let fmtBin = chunks.join(' ');
-  if(isNeg) fmtBin = '-' + fmtBin;
-  $('#' + prefix + '-bin').textContent = fmtBin;
-
-  // OCTAL
-  if(bits > 0){
-    $('#' + prefix + '-oct').textContent = unsignedVal.toString(8);
-  } else {
-    $('#' + prefix + '-oct').textContent = val < 0n
-      ? '-' + (-val).toString(8)
-      : val.toString(8);
-  }
-
+  if(bits>0){let h=u.toString(16).toUpperCase();$('#'+pfx+'-hex').textContent=h.padStart(bits/4,'0')}
+  else $('#'+pfx+'-hex').textContent=val<0n?'-'+(-val).toString(16).toUpperCase():val.toString(16).toUpperCase();
+  // BIN
+  let bin=bits>0?u.toString(2).padStart(bits,'0'):(val<0n?'-'+(-val).toString(2):val.toString(2));
+  const neg=bin.startsWith('-'),rb=neg?bin.slice(1):bin,ch=[];
+  for(let i=rb.length;i>0;i-=4)ch.unshift(rb.slice(Math.max(0,i-4),i));
+  let fb=ch.join(' ');if(neg)fb='-'+fb;
+  $('#'+pfx+'-bin').textContent=fb;
+  // OCT
+  if(bits>0)$('#'+pfx+'-oct').textContent=u.toString(8);
+  else $('#'+pfx+'-oct').textContent=val<0n?'-'+(-val).toString(8):val.toString(8);
   // ASCII
   try{
-    const target = bits > 0 ? unsignedVal : bigAbs(val);
-    let byteLen = bits > 0 ? bits / 8 : Math.max(1, Math.ceil(bitLength(target) / 8));
-    if(byteLen > 32) byteLen = 32;
-    let ascii = '';
-    for(let i = byteLen - 1; i >= 0; i--){
-      const b = Number((target >> BigInt(i * 8)) & 0xFFn);
-      ascii += (b >= 0x20 && b <= 0x7E) ? String.fromCharCode(b) : '.';
-    }
-    $('#' + prefix + '-ascii').textContent = '[' + ascii + ']';
-  }catch(e){
-    $('#' + prefix + '-ascii').textContent = '';
-  }
+    const tgt=bits>0?u:bigAbs(val);
+    let bl=bits>0?bits/8:Math.max(1,Math.ceil(bitLen(tgt)/8));
+    if(bl>32)bl=32;let a='';
+    for(let i=bl-1;i>=0;i--){const b=Number((tgt>>BigInt(i*8))&0xFFn);a+=(b>=0x20&&b<=0x7E)?String.fromCharCode(b):'.'}
+    $('#'+pfx+'-ascii').textContent='['+a+']';
+  }catch(e){$('#'+pfx+'-ascii').textContent=''}
 }
+function bitLen(v){if(v===0n)return 1;let n=0,x=v<0n?-v:v;while(x>0n){x>>=1n;n++}return n}
+function clearResults(p){['udec','sdec','hex','bin','oct','ascii'].forEach(k=>$('#'+p+'-'+k).textContent='')}
 
-function bitLength(v){
-  if(v === 0n) return 1;
-  let n = 0, x = v < 0n ? -v : v;
-  while(x > 0n){ x >>= 1n; n++; }
-  return n;
-}
-
-function clearResults(prefix){
-  ['udec','sdec','hex','bin','oct','ascii'].forEach(k => {
-    $('#' + prefix + '-' + k).textContent = '';
-  });
-}
-
-// ── 2-Word Combine ──
-$('#combineBtn').addEventListener('click', combineTwoWords);
-
+// 2-Word
+$('#combineBtn').addEventListener('click',combineTwoWords);
 function combineTwoWords(){
   try{
-    let vH = parseValue(highWordEl.value.trim() || '0', splitBase);
-    let vL = parseValue(lowWordEl.value.trim()  || '0', splitBase);
-    if(vH === null) vH = 0n;
-    if(vL === null) vL = 0n;
-    vH = vH & 0xFFFFn;
-    vL = vL & 0xFFFFn;
-    updateResults('r2', (vH << 16n) | vL, 32);
-  }catch(e){
-    clearResults('r2');
-  }
+    let h=parseValue(highWordEl.value.trim()||'0',splitBase);
+    let l=parseValue(lowWordEl.value.trim()||'0',splitBase);
+    if(h===null)h=0n;if(l===null)l=0n;
+    h=h&0xFFFFn;l=l&0xFFFFn;
+    updateResults('r2',(h<<16n)|l,32);
+  }catch(e){clearResults('r2')}
 }
 
-// ── Service Worker ──
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
-
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 </script>
 </body>
