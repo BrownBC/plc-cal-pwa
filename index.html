@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PLC Calc">
@@ -11,21 +11,18 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
-/* ===== Reset & Base ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#000000;
-  --surface:#111111;
+  --bg:#000;
+  --surface:#111;
   --card:#1a1a1a;
   --input-bg:#0a0a0a;
   --text:#f0f0f0;
-  --text-dim:#888888;
-  --accent:#cccccc;
-  --accent2:#aaaaaa;
-  --green:#999999;
-  --orange:#bbbbbb;
+  --text-dim:#888;
+  --accent:#ccc;
+  --accent2:#aaa;
   --border:#2a2a2a;
-  --tab-h:56px;
+  --tab-h:52px;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --safe-left:env(safe-area-inset-left,0px);
@@ -50,8 +47,8 @@ body{
 /* ===== Header ===== */
 .header{
   text-align:center;
-  padding:10px 16px 6px;
-  font-size:15px;
+  padding:8px 16px 4px;
+  font-size:14px;
   font-weight:700;
   color:var(--accent);
   letter-spacing:.5px;
@@ -63,231 +60,174 @@ body{
   flex:1;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
-  padding:0 12px 12px;
+  padding:0 10px 8px;
 }
 .tab-page{display:none}
 .tab-page.active{display:block}
 
-/* ===== Bottom Tab Bar ===== */
-.tab-bar{
-  display:flex;
-  flex-shrink:0;
-  background:var(--surface);
-  border-top:1px solid var(--border);
-  padding-bottom:var(--safe-bottom);
-}
-.tab-btn{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  height:var(--tab-h);
-  background:none;
-  border:none;
-  color:var(--text-dim);
-  font-size:10px;
-  cursor:pointer;
-  transition:color .2s;
-  -webkit-tap-highlight-color:transparent;
-}
-.tab-btn.active{color:var(--accent)}
-.tab-btn svg{width:24px;height:24px;margin-bottom:2px;fill:currentColor}
-
-/* ===== Section / Card ===== */
+/* ===== Section ===== */
 .section{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:10px;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:8px;
 }
 .section-title{
-  font-size:11px;
+  font-size:10px;
   color:var(--accent);
   font-weight:700;
   text-transform:uppercase;
   letter-spacing:.8px;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
 
-/* ===== Radio Group (pill style) ===== */
-.radio-group{
-  display:flex;
-  gap:4px;
-  flex-wrap:wrap;
-}
+/* ===== Radio Pills ===== */
+.radio-group{display:flex;gap:4px}
 .radio-group label{
-  flex:1;
-  min-width:0;
-  text-align:center;
-  padding:8px 4px;
-  font-size:12px;
-  font-weight:600;
-  border-radius:8px;
-  background:var(--input-bg);
-  border:1.5px solid var(--border);
-  color:var(--text-dim);
-  cursor:pointer;
-  transition:all .15s;
-  white-space:nowrap;
+  flex:1;min-width:0;text-align:center;
+  padding:7px 2px;font-size:11px;font-weight:600;
+  border-radius:6px;background:var(--input-bg);
+  border:1.5px solid var(--border);color:var(--text-dim);
+  cursor:pointer;transition:all .15s;white-space:nowrap;
 }
 .radio-group input{display:none}
-.radio-group input:checked+span{
-  /* handled via parent label */
-}
 .radio-group label.selected{
-  background:var(--card);
-  border-color:var(--accent);
-  color:var(--accent);
+  background:var(--card);border-color:var(--accent);color:var(--text);
 }
 
-/* ===== Input ===== */
+/* ===== Input Display ===== */
 .calc-input{
-  width:100%;
-  background:var(--input-bg);
-  border:1.5px solid var(--border);
-  border-radius:10px;
-  padding:12px 14px;
-  font-size:20px;
+  width:100%;background:var(--input-bg);
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:10px 12px;font-size:20px;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  color:var(--text);
-  caret-color:var(--accent);
-  outline:none;
-  transition:border-color .2s;
+  color:var(--text);caret-color:var(--accent);
+  outline:none;transition:border-color .2s;
 }
-.calc-input:focus{border-color:var(--accent)}
-.calc-input::placeholder{color:var(--text-dim);opacity:.5}
+.calc-input:focus,.calc-input.input-active{border-color:var(--accent)}
+.calc-input::placeholder{color:var(--text-dim);opacity:.4}
 
 /* ===== History ===== */
 .history-box{
-  background:var(--bg);
-  border-radius:8px;
-  padding:8px 10px;
-  max-height:100px;
-  overflow-y:auto;
+  margin-top:6px;background:var(--bg);border-radius:6px;
+  padding:6px 8px;max-height:56px;overflow-y:auto;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  font-size:12px;
-  color:var(--text-dim);
-  line-height:1.6;
+  font-size:11px;color:var(--text-dim);line-height:1.5;
 }
-.history-box:empty::before{
-  content:'計算履歴がここに表示されます';
-  color:var(--text-dim);
-  opacity:.4;
-}
+.history-box:empty::before{content:'計算履歴';color:var(--text-dim);opacity:.3}
 
 /* ===== Result Table ===== */
 .result-table{width:100%}
 .result-row{
-  display:flex;
-  align-items:baseline;
-  padding:5px 0;
+  display:flex;align-items:baseline;padding:3px 0;
   border-bottom:1px solid rgba(255,255,255,.04);
 }
 .result-row:last-child{border-bottom:none}
 .result-label{
-  width:90px;
-  flex-shrink:0;
-  font-size:11px;
-  font-weight:700;
-  color:var(--accent2);
+  width:78px;flex-shrink:0;font-size:10px;
+  font-weight:700;color:var(--accent2);
 }
 .result-value{
-  flex:1;
-  font-family:'SF Mono',Menlo,Consolas,monospace;
-  font-size:14px;
-  color:var(--text);
-  word-break:break-all;
-  min-height:1.2em;
-  user-select:all;
-  -webkit-user-select:all;
+  flex:1;font-family:'SF Mono',Menlo,Consolas,monospace;
+  font-size:13px;color:var(--text);word-break:break-all;
+  min-height:1.1em;user-select:all;-webkit-user-select:all;
 }
 
 /* ===== 2-Word Tab ===== */
-.split-inputs{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  margin-bottom:10px;
-}
+.split-inputs{display:flex;gap:6px;align-items:center;margin-bottom:8px}
 .split-inputs .field{flex:1}
-.split-inputs .field label{
-  display:block;
-  font-size:11px;
-  color:var(--text-dim);
-  margin-bottom:4px;
-  font-weight:600;
-}
-.split-inputs .plus{
-  font-size:22px;
-  color:var(--text-dim);
-  padding-top:16px;
+.split-inputs .field>label{
+  display:block;font-size:10px;color:var(--text-dim);
+  margin-bottom:3px;font-weight:600;
 }
 .split-input{
-  width:100%;
-  background:var(--input-bg);
-  border:1.5px solid var(--border);
-  border-radius:10px;
-  padding:10px 12px;
-  font-size:18px;
+  width:100%;background:var(--input-bg);
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:9px 10px;font-size:17px;
   font-family:'SF Mono',Menlo,Consolas,monospace;
-  color:var(--text);
-  caret-color:var(--accent);
-  outline:none;
-  transition:border-color .2s;
+  color:var(--text);caret-color:var(--accent);
+  outline:none;transition:border-color .2s;
 }
-.split-input:focus{border-color:var(--accent)}
+.split-input:focus,.split-input.input-active{border-color:var(--accent)}
+.split-inputs .plus{font-size:18px;color:var(--text-dim);padding-top:14px}
 
 .combine-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#555555,#333333);
-  color:#fff;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-  transition:opacity .15s;
-  margin-bottom:10px;
+  width:100%;padding:10px;border:none;border-radius:8px;
+  background:#333;color:#fff;font-size:14px;font-weight:700;
+  cursor:pointer;transition:opacity .15s;margin-bottom:8px;
 }
 .combine-btn:active{opacity:.7}
 
-/* ===== Utilities ===== */
-.mb-8{margin-bottom:8px}
+/* ===== KEYPAD ===== */
+.keypad{
+  flex-shrink:0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:5px;
+  padding:6px 10px 8px;
+  background:var(--bg);
+  border-top:1px solid var(--border);
+}
+.key{
+  height:44px;border:none;border-radius:8px;
+  font-size:16px;font-weight:600;
+  font-family:'SF Mono',Menlo,Consolas,monospace;
+  cursor:pointer;transition:background .1s;
+  -webkit-tap-highlight-color:transparent;
+  display:flex;align-items:center;justify-content:center;
+}
+.key:active{transform:scale(.95)}
+.key-digit{background:#222;color:var(--text)}
+.key-digit:active{background:#444}
+.key-op{background:#1c1c1c;color:#bbb}
+.key-op:active{background:#3a3a3a}
+.key-func{background:#181818;color:#999}
+.key-func:active{background:#333}
+.key-eq{background:#444;color:#fff}
+.key-eq:active{background:#666}
+.key-zero{grid-column:span 2}
+.key:disabled{opacity:.12;pointer-events:none;transform:none}
 
-/* ===== Scrollbar (WebKit) ===== */
-::-webkit-scrollbar{width:4px}
+/* ===== Tab Bar ===== */
+.tab-bar{
+  display:flex;flex-shrink:0;background:var(--surface);
+  border-top:1px solid var(--border);
+  padding-bottom:var(--safe-bottom);
+}
+.tab-btn{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  height:var(--tab-h);background:none;border:none;
+  color:var(--text-dim);font-size:10px;cursor:pointer;
+  transition:color .2s;-webkit-tap-highlight-color:transparent;
+}
+.tab-btn.active{color:var(--text)}
+.tab-btn svg{width:22px;height:22px;margin-bottom:2px;fill:currentColor}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <div class="header">PLC Programmer's Calc</div>
 
-<!-- Tab Pages -->
 <div class="tab-content">
 
-  <!-- ===== TAB 1: Standard Input ===== -->
+  <!-- ===== TAB 1 ===== -->
   <div id="page-calc" class="tab-page active">
-
-    <!-- Data Size -->
     <div class="section">
-      <div class="section-title">データサイズ</div>
       <div class="radio-group" id="rg-bitmode">
-        <label class="selected" data-val="16"><input type="radio" name="bitmode" value="16" checked><span>WORD(16)</span></label>
-        <label data-val="32"><input type="radio" name="bitmode" value="32"><span>DWORD(32)</span></label>
-        <label data-val="64"><input type="radio" name="bitmode" value="64"><span>QWORD(64)</span></label>
+        <label class="selected" data-val="16"><input type="radio" name="bitmode" value="16" checked><span>WORD</span></label>
+        <label data-val="32"><input type="radio" name="bitmode" value="32"><span>DWORD</span></label>
+        <label data-val="64"><input type="radio" name="bitmode" value="64"><span>QWORD</span></label>
         <label data-val="0"><input type="radio" name="bitmode" value="0"><span>制限無し</span></label>
       </div>
     </div>
-
-    <!-- Input Base -->
     <div class="section">
-      <div class="section-title">入力基数</div>
       <div class="radio-group" id="rg-base">
         <label data-val="16"><input type="radio" name="base" value="16"><span>HEX</span></label>
         <label class="selected" data-val="10"><input type="radio" name="base" value="10" checked><span>DEC</span></label>
@@ -295,16 +235,10 @@ body{
         <label data-val="2"><input type="radio" name="base" value="2"><span>BIN</span></label>
       </div>
     </div>
-
-    <!-- Input Field -->
     <div class="section">
-      <div class="section-title">入力 / 計算式</div>
-      <input type="text" id="calcInput" class="calc-input mb-8" placeholder="値または式を入力" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text">
-      <div class="section-title" style="margin-top:4px">計算履歴</div>
+      <input type="text" id="calcInput" class="calc-input input-active" placeholder="0" inputmode="none" readonly autocomplete="off">
       <div id="history" class="history-box"></div>
     </div>
-
-    <!-- Results -->
     <div class="section">
       <div class="section-title">変換結果</div>
       <div class="result-table" id="results1">
@@ -318,12 +252,9 @@ body{
     </div>
   </div>
 
-  <!-- ===== TAB 2: 2-Word Combine ===== -->
+  <!-- ===== TAB 2 ===== -->
   <div id="page-split" class="tab-page">
-
-    <!-- Split Input Base -->
     <div class="section">
-      <div class="section-title">入力基数</div>
       <div class="radio-group" id="rg-splitbase">
         <label data-val="16"><input type="radio" name="splitbase" value="16"><span>HEX</span></label>
         <label class="selected" data-val="10"><input type="radio" name="splitbase" value="10" checked><span>DEC</span></label>
@@ -331,25 +262,21 @@ body{
         <label data-val="2"><input type="radio" name="splitbase" value="2"><span>BIN</span></label>
       </div>
     </div>
-
-    <!-- High / Low Word -->
     <div class="section">
       <div class="section-title">2ワード合成</div>
       <div class="split-inputs">
         <div class="field">
           <label>上位 (D+1)</label>
-          <input type="text" id="highWord" class="split-input" placeholder="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <input type="text" id="highWord" class="split-input input-active" placeholder="0" inputmode="none" readonly autocomplete="off">
         </div>
         <div class="plus">+</div>
         <div class="field">
           <label>下位 (D)</label>
-          <input type="text" id="lowWord" class="split-input" placeholder="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <input type="text" id="lowWord" class="split-input" placeholder="0" inputmode="none" readonly autocomplete="off">
         </div>
       </div>
       <button id="combineBtn" class="combine-btn">合成して変換</button>
     </div>
-
-    <!-- Results -->
     <div class="section">
       <div class="section-title">合成結果 (DWORD)</div>
       <div class="result-table" id="results2">
@@ -364,7 +291,39 @@ body{
   </div>
 </div>
 
-<!-- Bottom Tab Bar -->
+<!-- ===== SHARED KEYPAD ===== -->
+<div class="keypad" id="keypad">
+  <button class="key key-digit" data-key="A" data-min="16">A</button>
+  <button class="key key-digit" data-key="B" data-min="16">B</button>
+  <button class="key key-digit" data-key="C" data-min="16">C</button>
+  <button class="key key-func"  data-key="AC">AC</button>
+
+  <button class="key key-digit" data-key="D" data-min="16">D</button>
+  <button class="key key-digit" data-key="E" data-min="16">E</button>
+  <button class="key key-digit" data-key="F" data-min="16">F</button>
+  <button class="key key-func"  data-key="BS">&larr;</button>
+
+  <button class="key key-digit" data-key="7" data-min="8">7</button>
+  <button class="key key-digit" data-key="8" data-min="10">8</button>
+  <button class="key key-digit" data-key="9" data-min="10">9</button>
+  <button class="key key-op"    data-key="/">&divide;</button>
+
+  <button class="key key-digit" data-key="4" data-min="8">4</button>
+  <button class="key key-digit" data-key="5" data-min="8">5</button>
+  <button class="key key-digit" data-key="6" data-min="8">6</button>
+  <button class="key key-op"    data-key="*">&times;</button>
+
+  <button class="key key-digit" data-key="1" data-min="2">1</button>
+  <button class="key key-digit" data-key="2" data-min="8">2</button>
+  <button class="key key-digit" data-key="3" data-min="8">3</button>
+  <button class="key key-op"    data-key="-">&minus;</button>
+
+  <button class="key key-digit key-zero" data-key="0" data-min="2">0</button>
+  <button class="key key-eq"    data-key="=">=</button>
+  <button class="key key-op"    data-key="+">+</button>
+</div>
+
+<!-- ===== TAB BAR ===== -->
 <div class="tab-bar">
   <button class="tab-btn active" data-tab="page-calc">
     <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm-1 14H7v-1c0-.37.12-.7.34-1 .69-.93 2.88-1.5 3.66-1.5s2.97.57 3.66 1.5c.22.3.34.63.34 1v1h-4zM18 17h-3v-2h3v2zm0-4h-3v-2h3v2zm0-4h-3V7h3v2z"/></svg>
@@ -377,28 +336,44 @@ body{
 </div>
 
 <script>
-/* ============================================================
-   PLC Programmer's Calc  — PWA Logic
-   ============================================================ */
 (function(){
 'use strict';
 
-// ── Helpers ──
 const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
-
-// BigInt-safe abs
 function bigAbs(v){ return v < 0n ? -v : v; }
 
 // ── State ──
 let bitMode   = 16;
 let inputBase = 10;
 let splitBase = 10;
-let currentValue = 0n; // use BigInt for 64bit support
+let currentValue = 0n;
+let currentTab = 'page-calc';
+let activeInput = null;
+let activeSplitInput = null;
 
-// ── DOM refs ──
-const calcInput = $('#calcInput');
-const historyEl = $('#history');
+// ── DOM ──
+const calcInput  = $('#calcInput');
+const historyEl  = $('#history');
+const highWordEl = $('#highWord');
+const lowWordEl  = $('#lowWord');
+
+activeInput = calcInput;
+activeSplitInput = highWordEl;
+
+// ── Active input management ──
+function setActiveInput(el){
+  $$('.input-active').forEach(e => e.classList.remove('input-active'));
+  activeInput = el;
+  el.classList.add('input-active');
+}
+
+[highWordEl, lowWordEl].forEach(el => {
+  el.addEventListener('click', () => {
+    activeSplitInput = el;
+    if(currentTab === 'page-split') setActiveInput(el);
+  });
+});
 
 // ── Tab switching ──
 $$('.tab-btn').forEach(btn => {
@@ -406,11 +381,19 @@ $$('.tab-btn').forEach(btn => {
     $$('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     $$('.tab-page').forEach(p => p.classList.remove('active'));
-    $('#' + btn.dataset.tab).classList.add('active');
+    const tabId = btn.dataset.tab;
+    $('#' + tabId).classList.add('active');
+    currentTab = tabId;
+    if(currentTab === 'page-calc'){
+      setActiveInput(calcInput);
+    } else {
+      setActiveInput(activeSplitInput);
+    }
+    updateKeypad();
   });
 });
 
-// ── Radio group helper ──
+// ── Radio groups ──
 function setupRadioGroup(groupId, onChange){
   const group = $('#' + groupId);
   group.querySelectorAll('label').forEach(label => {
@@ -425,41 +408,103 @@ function setupRadioGroup(groupId, onChange){
 
 setupRadioGroup('rg-bitmode', v => {
   bitMode = v;
-  // Re-display with new bit mode
   updateResults('r1', currentValue, bitMode);
-  // Also update input field representation
   updateInputDisplay();
 });
 
 setupRadioGroup('rg-base', v => {
-  const oldBase = inputBase;
   inputBase = v;
-  // Convert current input to new base display
   updateInputDisplay();
+  updateKeypad();
 });
 
-setupRadioGroup('rg-splitbase', v => { splitBase = v; });
+setupRadioGroup('rg-splitbase', v => {
+  splitBase = v;
+  updateKeypad();
+});
 
-// ── Update input field when base changes ──
+// ── Keypad state ──
+function getActiveBase(){
+  return currentTab === 'page-calc' ? inputBase : splitBase;
+}
+
+function updateKeypad(){
+  const base = getActiveBase();
+  $$('.key[data-min]').forEach(key => {
+    key.disabled = base < parseInt(key.dataset.min, 10);
+  });
+}
+updateKeypad();
+
+// ── Keypad handler ──
+$('#keypad').addEventListener('click', e => {
+  const btn = e.target.closest('.key');
+  if(!btn || btn.disabled) return;
+  const k = btn.dataset.key;
+
+  if(navigator.vibrate) navigator.vibrate(10);
+
+  if(k === 'AC'){
+    activeInput.value = '';
+    if(currentTab === 'page-calc'){
+      currentValue = 0n;
+      clearResults('r1');
+    } else {
+      combineTwoWords();
+    }
+    return;
+  }
+
+  if(k === 'BS'){
+    activeInput.value = activeInput.value.slice(0, -1);
+    triggerUpdate();
+    return;
+  }
+
+  if(k === '='){
+    if(currentTab === 'page-calc'){
+      calculateExpression();
+    } else {
+      combineTwoWords();
+    }
+    return;
+  }
+
+  // Digit / operator / hex letter
+  activeInput.value += k;
+  triggerUpdate();
+});
+
+function triggerUpdate(){
+  if(currentTab === 'page-calc'){
+    const raw = calcInput.value.trim();
+    if(!raw){
+      currentValue = 0n;
+      clearResults('r1');
+      return;
+    }
+    try{
+      const val = parseValue(raw, inputBase);
+      if(val !== null){
+        currentValue = val;
+        updateResults('r1', val, bitMode);
+      }
+    }catch(e){}
+  } else {
+    combineTwoWords();
+  }
+}
+
+// ── Input display update (base change) ──
 function updateInputDisplay(){
   if(currentValue === null) return;
   let val = currentValue;
-  let mode = bitMode;
-  if(mode > 0){
-    let mask = (1n << BigInt(mode)) - 1n;
-    val = val & mask;
-  }
-  let text = formatForBase(val, inputBase, mode);
-  // Prevent re-trigger
-  suppressInput = true;
-  calcInput.value = text;
-  suppressInput = false;
+  if(bitMode > 0) val = val & ((1n << BigInt(bitMode)) - 1n);
+  calcInput.value = formatForBase(val, inputBase, bitMode);
 }
 
 function formatForBase(val, base, mode){
-  // For display in the input box
   if(val < 0n && mode === 0){
-    // Unlimited mode, negative
     switch(base){
       case 16: return '-' + (-val).toString(16).toUpperCase();
       case 8:  return '-' + (-val).toString(8);
@@ -475,18 +520,15 @@ function formatForBase(val, base, mode){
   }
 }
 
-// ── Parse input ──
+// ── Parse ──
 function parseValue(str, base){
   str = str.trim();
   if(!str) return null;
-  // Handle prefixed notation regardless of selected base
   if(/^0x/i.test(str)) return BigInt('0x' + str.slice(2));
   if(/^0o/i.test(str)) return BigInt('0o' + str.slice(2));
   if(/^0b/i.test(str)) return BigInt('0b' + str.slice(2));
-
   let neg = false;
   if(str.startsWith('-')){ neg = true; str = str.slice(1); }
-
   let val;
   switch(base){
     case 16: val = BigInt('0x' + str); break;
@@ -497,68 +539,24 @@ function parseValue(str, base){
   return neg ? -val : val;
 }
 
-// ── Realtime input ──
-let suppressInput = false;
-calcInput.addEventListener('input', () => {
-  if(suppressInput) return;
-  const raw = calcInput.value.trim();
-  if(!raw){
-    currentValue = 0n;
-    clearResults('r1');
-    return;
-  }
-  try{
-    const val = parseValue(raw, inputBase);
-    if(val !== null){
-      currentValue = val;
-      updateResults('r1', val, bitMode);
-    }
-  }catch(e){
-    // Might be mid-typing or expression — don't clear
-  }
-});
-
-// ── Enter = Calculate expression ──
-calcInput.addEventListener('keydown', e => {
-  if(e.key === 'Enter'){
-    e.preventDefault();
-    calculateExpression();
-  }
-});
-
+// ── Calculate expression ──
 function calculateExpression(){
   const raw = calcInput.value.trim();
   if(!raw) return;
-  // Check if it looks like an expression (contains operators)
-  if(!/[+\-*/%&|^~<>]/.test(raw) && !/<<|>>/.test(raw)){
-    return; // Just a plain number, no calculation needed
-  }
+  if(!/[+\-*/%&|^~<>]/.test(raw) && !/<<|>>/.test(raw)) return;
 
   const base = inputBase;
   try{
-    // Replace number tokens with BigInt literals
     const expr = raw.replace(/\b([0-9a-fA-F]+)\b/g, (match) => {
-      // Skip if already prefixed
       if(/^0[xXoObB]/.test(match)) return match + 'n';
       try{
-        // Try parsing as current base
         const prefix = {16:'0x',8:'0o',2:'0b'}[base] || '';
-        // Validate
         BigInt(prefix + match);
         return prefix + match + 'n';
-      }catch(e){
-        return match;
-      }
+      }catch(e){ return match; }
     });
-
-    // Add 'n' suffix to prefixed numbers that don't have it
     const expr2 = expr.replace(/\b(0[xX][0-9a-fA-F]+|0[oO][0-7]+|0[bB][01]+)(?!n)\b/g, '$1n');
-
-    // Safe eval — only allow BigInt arithmetic and bitwise
-    // Validate: only digits, hex chars, operators, whitespace, n, 0x/0o/0b
-    if(/[;(){}\[\]"'`\\$@!?]/.test(expr2)){
-      throw new Error('Invalid characters');
-    }
+    if(/[;(){}\[\]"'`\\$@!?]/.test(expr2)) throw new Error('Invalid');
 
     const result = Function('"use strict"; return (' + expr2 + ')')();
 
@@ -566,9 +564,7 @@ function calculateExpression(){
       currentValue = result;
       const resultStr = formatForBase(applyMask(result, bitMode), base, bitMode);
       addHistory(raw + ' = ' + resultStr);
-      suppressInput = true;
       calcInput.value = resultStr;
-      suppressInput = false;
       updateResults('r1', result, bitMode);
     }
   }catch(e){
@@ -577,10 +573,7 @@ function calculateExpression(){
 }
 
 function applyMask(val, mode){
-  if(mode > 0){
-    const mask = (1n << BigInt(mode)) - 1n;
-    return val & mask;
-  }
+  if(mode > 0) return val & ((1n << BigInt(mode)) - 1n);
   return val;
 }
 
@@ -591,15 +584,13 @@ function addHistory(text){
   historyEl.scrollTop = historyEl.scrollHeight;
 }
 
-// ── Result display ──
+// ── Results ──
 function updateResults(prefix, val, mode){
   let unsignedVal, signedVal, bits;
-
   if(mode > 0){
     const mask = (1n << BigInt(mode)) - 1n;
     bits = mode;
     unsignedVal = val & mask;
-    // Signed: check MSB
     if(unsignedVal & (1n << BigInt(bits - 1))){
       signedVal = unsignedVal - (1n << BigInt(bits));
     } else {
@@ -616,54 +607,42 @@ function updateResults(prefix, val, mode){
 
   // HEX
   if(bits > 0){
-    const hexLen = bits / 4;
     let h = unsignedVal.toString(16).toUpperCase();
-    h = h.padStart(hexLen, '0');
-    $('#' + prefix + '-hex').textContent = h;
+    $('#' + prefix + '-hex').textContent = h.padStart(bits / 4, '0');
   } else {
-    let h = val < 0n
+    $('#' + prefix + '-hex').textContent = val < 0n
       ? '-' + (-val).toString(16).toUpperCase()
       : val.toString(16).toUpperCase();
-    $('#' + prefix + '-hex').textContent = h;
   }
 
   // BINARY (4-bit grouped)
-  let binStr;
-  if(bits > 0){
-    binStr = unsignedVal.toString(2).padStart(bits, '0');
-  } else {
-    binStr = val < 0n ? '-' + (-val).toString(2) : val.toString(2);
-  }
+  let binStr = bits > 0
+    ? unsignedVal.toString(2).padStart(bits, '0')
+    : (val < 0n ? '-' + (-val).toString(2) : val.toString(2));
   const isNeg = binStr.startsWith('-');
   const rawBits = isNeg ? binStr.slice(1) : binStr;
   const chunks = [];
   for(let i = rawBits.length; i > 0; i -= 4){
     chunks.unshift(rawBits.slice(Math.max(0, i - 4), i));
   }
-  let formattedBin = chunks.join(' ');
-  if(isNeg) formattedBin = '-' + formattedBin;
-  $('#' + prefix + '-bin').textContent = formattedBin;
+  let fmtBin = chunks.join(' ');
+  if(isNeg) fmtBin = '-' + fmtBin;
+  $('#' + prefix + '-bin').textContent = fmtBin;
 
   // OCTAL
   if(bits > 0){
     $('#' + prefix + '-oct').textContent = unsignedVal.toString(8);
   } else {
-    let o = val < 0n
+    $('#' + prefix + '-oct').textContent = val < 0n
       ? '-' + (-val).toString(8)
       : val.toString(8);
-    $('#' + prefix + '-oct').textContent = o;
   }
 
   // ASCII
   try{
     const target = bits > 0 ? unsignedVal : bigAbs(val);
-    let byteLen;
-    if(bits > 0){
-      byteLen = bits / 8;
-    } else {
-      byteLen = Math.max(1, Math.ceil(bitLength(target) / 8));
-    }
-    if(byteLen > 32) byteLen = 32; // safety limit
+    let byteLen = bits > 0 ? bits / 8 : Math.max(1, Math.ceil(bitLength(target) / 8));
+    if(byteLen > 32) byteLen = 32;
     let ascii = '';
     for(let i = byteLen - 1; i >= 0; i--){
       const b = Number((target >> BigInt(i * 8)) & 0xFFn);
@@ -671,14 +650,13 @@ function updateResults(prefix, val, mode){
     }
     $('#' + prefix + '-ascii').textContent = '[' + ascii + ']';
   }catch(e){
-    $('#' + prefix + '-ascii').textContent = 'Error';
+    $('#' + prefix + '-ascii').textContent = '';
   }
 }
 
 function bitLength(v){
   if(v === 0n) return 1;
-  let n = 0;
-  let x = v < 0n ? -v : v;
+  let n = 0, x = v < 0n ? -v : v;
   while(x > 0n){ x >>= 1n; n++; }
   return n;
 }
@@ -689,31 +667,24 @@ function clearResults(prefix){
   });
 }
 
-// ── Tab 2: 2-Word Combine ──
+// ── 2-Word Combine ──
 $('#combineBtn').addEventListener('click', combineTwoWords);
-// Also support realtime on input
-$('#highWord').addEventListener('input', combineTwoWords);
-$('#lowWord').addEventListener('input', combineTwoWords);
 
 function combineTwoWords(){
-  const sHigh = $('#highWord').value.trim() || '0';
-  const sLow  = $('#lowWord').value.trim()  || '0';
   try{
-    let vHigh = parseValue(sHigh, splitBase);
-    let vLow  = parseValue(sLow, splitBase);
-    if(vHigh === null) vHigh = 0n;
-    if(vLow === null)  vLow  = 0n;
-    // Mask to 16bit
-    vHigh = vHigh & 0xFFFFn;
-    vLow  = vLow  & 0xFFFFn;
-    const combined = (vHigh << 16n) | vLow;
-    updateResults('r2', combined, 32); // Always DWORD
+    let vH = parseValue(highWordEl.value.trim() || '0', splitBase);
+    let vL = parseValue(lowWordEl.value.trim()  || '0', splitBase);
+    if(vH === null) vH = 0n;
+    if(vL === null) vL = 0n;
+    vH = vH & 0xFFFFn;
+    vL = vL & 0xFFFFn;
+    updateResults('r2', (vH << 16n) | vL, 32);
   }catch(e){
     clearResults('r2');
   }
 }
 
-// ── Service Worker Registration ──
+// ── Service Worker ──
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
