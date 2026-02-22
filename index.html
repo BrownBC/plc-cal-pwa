@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PLC Calc">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#000000">
 <title>PLC Calc</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -14,17 +14,17 @@
 /* ===== Reset & Base ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#1a1a2e;
-  --surface:#16213e;
-  --card:#0f3460;
-  --input-bg:#1a1a3e;
-  --text:#e0e0e0;
-  --text-dim:#8888aa;
-  --accent:#00b4d8;
-  --accent2:#48cae4;
-  --green:#52b788;
-  --orange:#f77f00;
-  --border:#2a2a4a;
+  --bg:#000000;
+  --surface:#111111;
+  --card:#1a1a1a;
+  --input-bg:#0a0a0a;
+  --text:#f0f0f0;
+  --text-dim:#888888;
+  --accent:#cccccc;
+  --accent2:#aaaaaa;
+  --green:#999999;
+  --orange:#bbbbbb;
+  --border:#2a2a2a;
   --tab-h:56px;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
@@ -244,7 +244,7 @@ body{
   padding:12px;
   border:none;
   border-radius:10px;
-  background:linear-gradient(135deg,var(--accent),var(--green));
+  background:linear-gradient(135deg,#555555,#333333);
   color:#fff;
   font-size:15px;
   font-weight:700;
@@ -619,11 +619,11 @@ function updateResults(prefix, val, mode){
     const hexLen = bits / 4;
     let h = unsignedVal.toString(16).toUpperCase();
     h = h.padStart(hexLen, '0');
-    $('#' + prefix + '-hex').textContent = '0x' + h;
+    $('#' + prefix + '-hex').textContent = h;
   } else {
     let h = val < 0n
-      ? '-0x' + (-val).toString(16).toUpperCase()
-      : '0x' + val.toString(16).toUpperCase();
+      ? '-' + (-val).toString(16).toUpperCase()
+      : val.toString(16).toUpperCase();
     $('#' + prefix + '-hex').textContent = h;
   }
 
@@ -646,11 +646,11 @@ function updateResults(prefix, val, mode){
 
   // OCTAL
   if(bits > 0){
-    $('#' + prefix + '-oct').textContent = '0o' + unsignedVal.toString(8);
+    $('#' + prefix + '-oct').textContent = unsignedVal.toString(8);
   } else {
     let o = val < 0n
-      ? '-0o' + (-val).toString(8)
-      : '0o' + val.toString(8);
+      ? '-' + (-val).toString(8)
+      : val.toString(8);
     $('#' + prefix + '-oct').textContent = o;
   }
 
