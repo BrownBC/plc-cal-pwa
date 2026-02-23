@@ -155,12 +155,11 @@ body{
 .tab-bar{
   display:flex;flex-shrink:0;background:var(--surface);
   border-top:1px solid var(--border);
-  padding-bottom:var(--safe-bottom);
 }
 .tab-bar::after{
   content:'';position:fixed;left:0;right:0;bottom:0;
   height:var(--safe-bottom);background:var(--surface);
-  z-index:1;
+  z-index:-1;
 }
 .tab-btn{
   flex:1;display:flex;
